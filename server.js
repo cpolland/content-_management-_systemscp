@@ -80,6 +80,28 @@ function viewAllEmployees(){
     })
 }
 
+function addDepartment(){
+    db.query('SELECT * FROM department',(err,res )=> {
+        if(err) throw err
+        inquirer.prompt([
+        {
+            type: "input",
+            name: "newDepartment",
+            message: "What is the name of the new department?",
+            choices: res.map(department => department.department_name)
+        }
+        ]).then(response => {
+            const departmentName = res.find(department => department.department_name === response.newDepartment)
+            db.query('INSERT INTO department SET ?',{
+                department_name: response.newDepartment,
+                
+            })
+            console.log("New new department added.")
+            startPrompt()
+        })
+    })
+}
+
 function addEmployee(){
     db.query('SELECT * FROM role',(err,res )=> {
         if(err) throw err
