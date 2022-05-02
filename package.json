@@ -1,0 +1,24 @@
+{
+  "name": "content-_management-_systemscp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "connection.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cpolland/content-_management-_systemscp.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cpolland/content-_management-_systemscp/issues"
+  },
+  "homepage": "https://github.com/cpolland/content-_management-_systemscp#readme",
+  "dependencies": {
+    "inquirer": "^8.2.4",
+    "mysql2": "^2.3.3"
+  }
+}

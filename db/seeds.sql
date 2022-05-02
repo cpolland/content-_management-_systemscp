@@ -5,7 +5,7 @@ VALUES ("Managment"),
 ("Marketing"),
 ("Sales");
 
-INSERT INTO roll (title,salary,department_id)
+INSERT INTO role (title,salary,department_id)
 VALUES ("CEO",125000,1) , 
 ("Manager",90000,1), 
 ("HR Head",90000,2), 
