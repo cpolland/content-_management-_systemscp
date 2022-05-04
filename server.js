@@ -15,7 +15,8 @@ const startPrompt = () => {
                  'add a department', 
                  'add a role', 
                  'add an employee', 
-                 'update an employee role'
+                 'update an employee role',
+                 
 
                 ]
         }
@@ -91,12 +92,44 @@ function addDepartment(){
             choices: res.map(department => department.department_name)
         }
         ]).then(response => {
-            const departmentName = res.find(department => department.department_name === response.newDepartment)
             db.query('INSERT INTO department SET ?',{
                 department_name: response.newDepartment,
                 
             })
             console.log("New new department added.")
+            startPrompt()
+        })
+    })
+}
+
+function addRole(){
+    db.query('SELECT * FROM role',(err,res )=> {
+        if(err) throw err
+        inquirer.prompt([
+        {
+            type: "input",
+            name: "newRole",
+            message: "What is the title name of the new role?",
+        },
+        {
+            type: "input",
+            name: "salary",
+            message: "What is the salary of the new role?"
+        } ,
+   
+         {
+             type: "input",
+             name: "roleId",
+             message: "What is the department ID of the new role?"
+         },
+
+        ]).then(response => {
+            db.query('INSERT INTO role SET ?',{
+                title: response.newRole,
+                salary: response.salary,
+                id: response.roleId,
+            })
+            console.log("New role has been added.")
             startPrompt()
         })
     })
@@ -123,12 +156,6 @@ function addEmployee(){
             message: "What is the role for the new employee?",
             choices: res.map(role => role.title)
         }
-        // {
-        //     type: "list",
-        //     name: "managerId",
-        //     message: "What is the manager's ID?",
-        //     choices: ["hello"]
-        // }
         ]).then(response => {
             const emplyeeRole = res.find(role => role.title === response.roleTitle)
             db.query('INSERT INTO employee SET ?',{
@@ -138,6 +165,39 @@ function addEmployee(){
             })
             console.log("New Employee added.")
             startPrompt()
+        })
+    })
+}
+
+function updateRole (){
+    db.query('SELECT * FROM employee',(err,res )=> {
+        if(err) throw err
+        inquirer.prompt([
+        {
+            type: "list",
+            name: "employeeUpdate",
+            message: "Who is the employee you want to update?",
+            choices: res.map(employee => employee.last_name + ',' + employee.first_name)
+        },
+       
+        ]).then(response => {
+            db.query('SELECT * FROM role',(err,res )=> {
+                if(err) throw err
+                inquirer.prompt([
+                {
+                    type: "list",
+                    name: "newRole",
+                    message: "What is the new role you wish to asign to the employee?",
+                    choices: res.map(role => role.title)
+                },
+               
+                ]).then(response => {
+                    db.query('REPLACE INTO employee (pk_id, role_id) VALUES (newRole)')
+                    })
+                    console.log("Epmloyee's new role updated.")
+                    
+                })
+            
         })
     })
 }
